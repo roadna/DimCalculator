@@ -1,5 +1,6 @@
 package com.roadna.dimcalculator;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -167,8 +168,9 @@ public class Calculator {
         if (suffixQueue.peek().equals("#")) return "格式错误";
         Stack<String> suffixStack = new Stack<String>();
         String current = "";
-        double frontOperand;
-        double backOperand;
+        BigDecimal frontOperand;
+        BigDecimal backOperand;
+
         double value = 0;
         for (int i = suffixQueue.size(); i > 0; i--) {
             current = suffixQueue.poll();
@@ -176,17 +178,17 @@ public class Calculator {
             if (current.matches("^\\d+(\\.\\d+)*$")) {
                 suffixStack.push(current);
             } else {
-                backOperand = Double.valueOf(suffixStack.pop());
-                frontOperand = Double.valueOf(suffixStack.pop());
+                backOperand = BigDecimal.valueOf(Double.valueOf(suffixStack.pop()));
+                frontOperand = BigDecimal.valueOf(Double.valueOf(suffixStack.pop()));
                 if (current.equals("+")) {
-                    value = frontOperand + backOperand;
+                    value = frontOperand.add(backOperand).doubleValue();
                 } else if (current.equals("-")) {
-                    value = frontOperand - backOperand;
+                    value = frontOperand.subtract(backOperand).doubleValue();
                 } else if (current.equals("*")) {
-                    value = frontOperand * backOperand;
+                    value = frontOperand.multiply(backOperand).doubleValue();
                 } else if (current.equals("/")) {
-                    if (backOperand == 0) return "勿零除";
-                    value = frontOperand / backOperand;
+                    if (backOperand.doubleValue() == 0) return "勿零除";
+                    value = frontOperand.divide(backOperand,10, BigDecimal.ROUND_HALF_UP).doubleValue();
                 }
                 suffixStack.push(String.valueOf(value));
             }
