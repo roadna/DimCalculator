@@ -71,15 +71,15 @@ public class Calculator {
             if (i != length-1) current_right = String.valueOf(expression.charAt(i+1));
             if (current.matches("[\\(]")) {
                 if (current_left.matches("[\\d\\.\\)]") | current_right.matches("[\\+\\-\\*/]") | i == length -1)
-                    return false;
+                    return false; //左括号“（”左边是否含有数字、小数点或右括号、右边是否含有操作符
                 left_bracket++;
             } else if (current.matches("[\\)]")) {
                 if (current_left.matches("[\\+\\-\\*/]") | current_right.matches("[\\d\\.\\(]") | i == 0)
-                    return false;
+                    return false; //右括号“）”左边是否含有操作数、右边是否含有数字、小数点或左括号
                 right_bracket++;
-            } else if (current.matches("[\\.]") & i == length-1) {
+            } else if (current.matches("[\\.]") & i == length-1) { //末尾是否存在小数点
                 return false;
-            } else if (current.matches("[\\+\\-\\*/]")) {
+            } else if (current.matches("[\\+\\-\\*/]")) { //是否连续使用操作符
                 if (current_left.matches("[\\+\\-\\*/]") | current_right.matches("[\\+\\-\\*/]"))
                     return false;
             }
