@@ -13,11 +13,14 @@ import java.util.Stack;
 
 public class Calculator {
 
+    private String expression;
+
     private Map<String, Integer> priority;//操作符优先级Map
 
     public Queue<String> suffixTemp;
 
-    public Calculator() {
+    public Calculator(String expression) {
+        this.expression = expression;
         initPriority();
     }
 
@@ -59,7 +62,7 @@ public class Calculator {
     }
 
     //检查计算式是否有格式错误
-    private boolean isSyntaxChecked(String expression){
+    private boolean isSyntaxChecked(){
         int left_bracket = 0;
         int right_bracket = 0;
         String current = "";
@@ -88,14 +91,10 @@ public class Calculator {
         return left_bracket == right_bracket;
     }
 
-    /**
-     * @param expression 算数表达式
-     * @return
-     * 将中缀表达式转换为后缀表达式
-     */
-    public Queue<String> toSuffix(String expression) {
+    //将中缀表达式转换为后缀表达式
+    public Queue<String> toSuffix() {
         Queue<String> operandQueue = new LinkedList<>();//操作数队列
-        if (!isSyntaxChecked(expression)) {
+        if (!isSyntaxChecked()) {
             operandQueue.add("#"); //表示格式错误。
             return operandQueue;
         }
@@ -157,13 +156,10 @@ public class Calculator {
     }
 
 
-    /**
-     * @param expression 算数表达式
-     * @return
-     * 得到表达式的结果
-     */
-    public String getResult(String expression) {
-        Queue<String> suffixQueue = toSuffix(expression);
+
+    //计算算术式的结果
+    public String getResult() {
+        Queue<String> suffixQueue = toSuffix();
         suffixTemp = new LinkedList<>(suffixQueue);
         if (suffixQueue.peek().equals("#")) return "格式错误";
         Stack<String> suffixStack = new Stack<String>();

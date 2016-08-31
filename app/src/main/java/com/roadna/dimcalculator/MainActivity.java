@@ -77,11 +77,13 @@ public class MainActivity extends AppCompatActivity {
     public void add_dot(View view){expression += "."; expression_text.setText(expression);}
     public void add_zero(View view){expression += "0"; expression_text.setText(expression);}
     public void cal_result(View view){
-        Calculator cal = new Calculator();
-        result = cal.getResult(expression);
-        result_text.setText(result);
-        suffix = cal.getSuffix();
-        suffix_text.setText(suffix);
+        if (expression.length() != 0) {
+            Calculator cal = new Calculator(expression);
+            result = cal.getResult();
+            result_text.setText(result);
+            suffix = cal.getSuffix();
+            suffix_text.setText(suffix);
+        }
     }
     public void add_plus(View view){expression += "+"; expression_text.setText(expression);}
 }
