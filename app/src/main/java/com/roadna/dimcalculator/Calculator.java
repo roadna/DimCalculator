@@ -72,7 +72,7 @@ public class Calculator {
         for (int i= 0; i<length0; i++) {
             current = String.valueOf(expression.charAt(i));
             if (i != 0) current_left = String.valueOf(expression.charAt(i-1));
-            if (current.matches("\\-") & (current_left.matches("\\(") | i == 0)) {
+            if (current.matches("[\\+\\-]") & (current_left.matches("\\(") | i == 0)) {
                 if (i == 0) {
                     expression = "0" + expression;
                 }
@@ -87,7 +87,7 @@ public class Calculator {
             if (i != 0) current_left = String.valueOf(expression.charAt(i-1));
             if (i != length1-1) current_right = String.valueOf(expression.charAt(i+1));
             if (current.matches("[\\(]")) {
-                if (current_left.matches("[\\d\\.\\)]") | current_right.matches("[\\+\\-\\*/]") | i == length1 -1)
+                if (current_left.matches("[\\d\\.\\)]") | current_right.matches("[\\+\\-\\*/]") | i == length1 - 1)
                     return false; //左括号“（”左边是否含有数字、小数点或右括号、右边是否含有操作符
                 left_bracket++;
             } else if (current.matches("[\\)]")) {
@@ -97,7 +97,8 @@ public class Calculator {
             } else if (current.matches("[\\.]") & i == length1-1) { //末尾是否存在小数点
                 return false;
             } else if (current.matches("[\\+\\-\\*/]")) {
-                if (current_left.matches("[\\+\\-\\*/]") | current_right.matches("[\\+\\-\\*/]"))
+                if (current_left.matches("[\\+\\-\\*/]") | current_right.matches("[\\+\\-\\*/]")
+                        | i == length1 - 1 | length1 == 1)
                     return false; //是否连续使用操作符
             }
         }
